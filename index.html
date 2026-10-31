@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="ru"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Калькулятор ЖКХ в Сэндае — электричество, газ, вода</title><style>
+:root{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1c2c43;background:#f2f6fb;--ink:#17283c;--muted:#718096;--line:#e2eaf4;--blue:#3369d7;--electric:#efa93a;--gas:#f17b64;--water:#42a5db;--sewer:#26bea9;--internet:#8b75d7;--other:#99a4b5}
+*{box-sizing:border-box}body{margin:0;min-width:320px;background:radial-gradient(circle at 4% 0%,#e4f0ff 0,transparent 28%),radial-gradient(circle at 96% 17%,#ebf6f4 0,transparent 30%),#f4f7fb}button,input,select{font:inherit}button{cursor:pointer}[hidden]{display:none!important}
+.wrap{max-width:1190px;margin:0 auto;padding:24px 23px 70px}
+.hero{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:22px;padding:22px 3px 25px}.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:800;color:#5177bc;text-transform:uppercase;display:block;margin-bottom:9px}.hero h1{font-size:clamp(29px,4vw,41px);letter-spacing:-.045em;font-weight:820;line-height:1.15;margin:0 0 9px;color:#102640}.hero h1 span{color:#3372d0}.intro{font-size:14px;color:#6e7e95;max-width:725px;line-height:1.6;margin:0}.hero-tag{font-size:12px;color:#3265a7;font-weight:700;background:#e6f0ff;border:1px solid #d6e7ff;border-radius:50px;padding:10px 15px;white-space:nowrap}
+.overview{display:grid;grid-template-columns:minmax(270px,.84fr) minmax(0,1.16fr);gap:18px;margin-bottom:20px}
+.summary,.insight,.card{border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 28px rgba(27,58,99,.044)}
+.summary{position:relative;overflow:hidden;padding:29px 29px 25px;min-height:317px;color:white;border:0;background:linear-gradient(142deg,#143c70 0%,#0f315b 55%,#102748 100%);display:flex;flex-direction:column;justify-content:space-between}.summary:before,.summary:after{content:'';position:absolute;pointer-events:none;border:1px solid rgba(255,255,255,.10);border-radius:50%;width:320px;height:320px;right:-159px;top:-205px}.summary:after{width:300px;height:300px;right:-215px;top:-140px;background:rgba(255,255,255,.035)}
+.summary .sub{color:#b7d2f4;font-size:12px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;position:relative;z-index:1}.summary .money{font-size:clamp(33px,4.5vw,51px);line-height:1.1;letter-spacing:-.04em;font-weight:820;margin:15px 0 8px;position:relative;z-index:1;white-space:nowrap}.summary-caption{color:#a9c5e9;font-size:12px;position:relative;z-index:1}.summary-stats{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:20px;border-top:1px solid rgba(255,255,255,.16);margin-top:32px;z-index:1}.summary-stats div{display:flex;flex-direction:column;gap:6px}.summary-stats span{font-size:12px;color:#aec6e6}.summary-stats strong{font-size:19px;letter-spacing:-.03em}.summary-stats small{font-size:12px}
+.insight{padding:22px 25px 20px}.insight-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.insight h2{font-size:17px;margin:0;color:#192d45;letter-spacing:-.02em}.caption-mini{font-size:11px;font-weight:600;color:#8796a8}.chart-layout{display:grid;grid-template-columns:195px minmax(0,1fr);align-items:center;gap:24px;margin:13px 0 2px}.donut{width:190px;height:190px;border-radius:50%;background:#e7edf5;display:grid;place-items:center;transition:background .15s;position:relative}.donut:after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid #eaf0f7;pointer-events:none}.donut-center{border-radius:50%;width:128px;height:128px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px #e8edf5}.donut-center strong{font-size:28px;letter-spacing:-.055em;color:#1d354f}.donut-center small{color:#8b98a9;font-weight:600;font-size:11px;margin-top:2px}.rows{display:flex;flex-direction:column;gap:11px;min-width:0}.break-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 8px;align-items:center}.break-name{display:flex;align-items:center;gap:8px;font-size:12px;color:#5d7185;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.break-name .dot{width:9px;height:9px;border-radius:50%;flex:none}.break-value{font-size:12px;color:#233a54;font-weight:750;font-variant-numeric:tabular-nums;white-space:nowrap}.break-item.off .break-name,.break-item.off .break-value{opacity:.35}.mini-track{grid-column:1/-1;height:4px;background:#eff3f8;border-radius:8px;overflow:hidden}.mini-fill{height:100%;border-radius:8px;transition:width .2s}.bar{height:9px;display:flex;background:#edf2f8;border-radius:30px;overflow:hidden;margin-top:13px}.bar span{height:100%;transition:width .2s}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{padding:24px;min-width:0}.card.full{grid-column:1/-1}.card-head,.extra-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:34px;margin-bottom:20px}.card h2{font-size:19px;color:#1b3048;letter-spacing:-.028em;line-height:1.3;margin:0}.service-switch{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;white-space:nowrap}.service-switch input{position:absolute;opacity:0;width:1px;height:1px}.switch-track{position:relative;background:#cbd5e1;width:39px;height:22px;border-radius:30px;flex:none;transition:background .2s}.switch-track:after{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;background:#fff;border-radius:50%;box-shadow:0 1px 3px #0002;transition:transform .2s}.service-switch input:checked + .switch-track{background:#28bba5}.service-switch input:checked + .switch-track:after{transform:translateX(17px)}.service-switch input:focus-visible + .switch-track{outline:3px solid #98bfff;outline-offset:2px}.switch-text{font-size:11px;font-weight:700;color:#668092;min-width:64px}
+.service-body{transition:opacity .2s}.service-body.is-off{opacity:.38;filter:grayscale(.65)}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 16px}.field{min-width:0}.field>label,.slider-label>label{display:block;font-size:12px;color:#697c92;font-weight:700;margin:0 0 7px}.field input[type=number],.field select{border-radius:10px;border:1px solid #d8e2ee;background:#fbfdff;color:#233751;width:100%;min-width:0;padding:10px 11px;font-size:14px;outline:none}.field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#74849b 50%),linear-gradient(135deg,#74849b 50%,transparent 50%);background-position:calc(100% - 17px) 50%,calc(100% - 12px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:28px}.field input:focus-visible,.field select:focus-visible{border-color:#6ca0e5;box-shadow:0 0 0 3px #dcecff}.slider-field{grid-column:1/-1;background:#f7f9fd;padding:13px 14px 10px;border:1px solid #eaf0f7;border-radius:13px}.slider-label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}.slider-label>label{margin:0;font-size:13px;color:#435a72}.slider-number{width:116px;flex-shrink:0}.slider-number input[type=number]{text-align:right;border:1px solid #d5e2f1;padding:7px 10px;background:white;font-size:15px;font-weight:800;color:#2b4e84;font-variant-numeric:tabular-nums}.slider-field input[type=range]{display:block;width:100%;height:8px;margin:12px 0 9px;border-radius:100px;appearance:none;-webkit-appearance:none;outline:none;background:linear-gradient(to right,var(--accent,#3979de) 0%,var(--accent,#3979de) var(--progress,50%),#e1e8f2 var(--progress,50%),#e1e8f2 100%);cursor:pointer}.slider-field input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:19px;height:19px;background:#fff;border:4px solid var(--accent,#3979de);border-radius:50%;box-shadow:0 2px 6px rgba(30,65,110,.2)}.slider-field input[type=range]::-moz-range-thumb{width:12px;height:12px;background:#fff;border:4px solid var(--accent,#3979de);border-radius:50%;box-shadow:0 2px 6px rgba(30,65,110,.2)}.slider-field input[type=range]:focus-visible{outline:3px solid #b5d1ff;outline-offset:4px}.slider-field input[type=range]:disabled{cursor:not-allowed}.slider-edges{display:flex;justify-content:space-between;color:#98a6b7;font-size:10px}.slider-field[data-slider=kwh],.slider-field[data-slider=bill],.slider-field[data-slider=nightShare]{--accent:#e4a036}.slider-field[data-slider=gasVolume]{--accent:#ee826b}.slider-field[data-slider=waterVolume]{--accent:#3897d6}.slider-field[data-slider=sewerVolume]{--accent:#28b9aa}.slider-field[data-slider=internet]{--accent:#8877d4}.slider-field[data-slider=other]{--accent:#94a0b3}
+.mode{display:flex;gap:5px;background:#f2f5fa;padding:5px;border:1px solid #e7ecf4;border-radius:11px;margin-bottom:18px}.mode label{cursor:pointer;position:relative;flex:1}.mode input{opacity:0;position:absolute}.mode span{display:block;padding:10px 9px;font-size:12px;color:#6a7c91;text-align:center;border-radius:8px;font-weight:700}.mode input:checked + span{background:#fff;color:#2c63ad;box-shadow:0 2px 8px #172f4d14}.mode input:focus-visible + span{outline:2px solid #5e9ddf}.edit-hint{background:#edf5ff;border-radius:9px;color:#5a7194;padding:10px 12px;font-size:11px;line-height:1.5;margin:14px 0 0}.gas-fields .field:nth-child(1),.gas-fields .field:nth-child(2){grid-column:auto}
+.gas-energy-note{grid-column:1/-1;padding:15px 16px 14px;border:1px solid #f3d9c5;border-radius:14px;background:linear-gradient(130deg,#fff9f2,#fff4e9);color:#574230}
+.gas-energy-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px}.gas-energy-head strong{font-size:14px;color:#714328;letter-spacing:-.01em}.gas-energy-badge{font-size:10px;line-height:1;padding:5px 8px;border-radius:7px;background:#df7449;color:white;font-weight:800;text-transform:uppercase;letter-spacing:.035em}
+.gas-energy-note p{font-size:12px;line-height:1.6;color:#735a43;margin:0 0 12px}.gas-energy-note p b{color:#8e4d26}
+.gas-energy-bars{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gas-energy-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:7px 8px;font-size:11px;font-weight:650;color:#77604a}.gas-energy-row strong{font-size:12px;white-space:nowrap;color:#594532}
+.gas-energy-track{grid-column:1/-1;height:7px;background:#f0e3d5;border-radius:30px;overflow:hidden}.gas-energy-track span{display:block;height:100%;border-radius:30px}.gas-energy-city{width:45.45%;background:#5b92c9}.gas-energy-lp{width:100%;background:#e8865e}
+.gas-equivalence{font-size:12px;color:#814620;font-weight:800;background:#fff;border:1px solid #f3e1cf;padding:10px 11px;border-radius:9px;margin:12px 0 8px;line-height:1.5}.gas-energy-note small{display:block;line-height:1.5;font-size:10px;color:#947c66}
+@media(max-width:440px){.gas-energy-bars{grid-template-columns:1fr}.gas-energy-note{padding:13px}.gas-energy-head strong{font-size:13px}}
+
+.result-panel{padding:15px 17px;border-radius:14px;background:#eff6ff;border:1px solid #e4efff;margin-top:20px}.result-heading{font-size:11px;color:#6e8198;font-weight:700;margin-bottom:3px}.price{font-size:26px;font-weight:830;letter-spacing:-.035em;color:#255eaa;font-variant-numeric:tabular-nums;line-height:1.3}.muted{font-size:11px;color:#657b95;line-height:1.6;margin-top:4px}.tip{font-size:11px;color:#8998ab;line-height:1.55;margin:12px 0 0}
+.mini-panel{margin-top:15px;padding:12px 14px;border:1px solid #e9eef4;border-radius:13px}.mini-head{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;color:#708399;margin-bottom:10px}.mini-head b{color:#3c526d}.split{display:flex;height:9px;border-radius:60px;overflow:hidden;background:#e6edf6}.split-day{background:#e5a43f;transition:width .2s}.split-night{background:#4d87cf;transition:width .2s}.mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}.mini-stat{padding:9px;border:1px solid #edf0f6;border-radius:9px}.mini-stat small{font-size:11px;color:#7890a6}.mini-stat strong{display:block;color:#2c425d;font-size:14px;margin:5px 0 2px}.mini-stat em{font-style:normal;font-size:11px;color:#8b9bad}
+.extras-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.extra-service{border:1px solid #e7edf5;border-radius:16px;padding:16px;background:#fcfdff;min-width:0}.extra-head{margin-bottom:12px}.extra-head strong{font-size:15px;color:#274158}.extra-service .slider-field{padding:12px}.notes{margin-top:20px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}.actions button{border:1px solid transparent;background:#2a63ae;color:#fff;font-weight:700;font-size:13px;border-radius:11px;padding:13px 20px}.actions button:hover{background:#174e9f}.actions .secondary{background:white;color:#2f5b96;border:1px solid #d6e2f0}.actions .secondary:hover{background:#eef5ff}.warning{padding:14px 17px;font-size:12px;color:#81714a;line-height:1.6;border:1px solid #f0e6ca;border-radius:13px;background:#fffaf0}footer{padding:24px 5px 0;font-size:12px;color:#7c8ba1;line-height:1.8}footer strong{color:#5a718f}.sources{display:flex;gap:0 13px;flex-wrap:wrap}.sources br{display:none}.sources a{color:#426aa4;text-decoration:none}.sources a:hover{text-decoration:underline}footer p{margin:12px 0 0}
+@media(max-width:940px){.overview{grid-template-columns:1fr}.summary{min-height:auto}.chart-layout{grid-template-columns:195px 1fr}.grid{gap:15px}.card{padding:21px}}
+@media(max-width:720px){.wrap{padding:15px 13px 45px}.hero{padding:18px 1px 21px;align-items:flex-start}.hero-tag{display:none}.hero h1{font-size:30px}.intro{font-size:12px}.grid{grid-template-columns:1fr}.overview{gap:14px;margin-bottom:14px}.card,.insight{padding:19px}.summary{padding:23px}.summary .money{font-size:38px}.chart-layout{gap:16px}.extras-grid{grid-template-columns:1fr}}
+@media(max-width:470px){.chart-layout{grid-template-columns:1fr;justify-items:center}.donut{width:170px;height:170px}.donut-center{width:112px;height:112px}.rows{width:100%}.insight-head{align-items:flex-start}.fields{grid-template-columns:1fr 1fr;gap:11px}.fields .slider-field{grid-column:1/-1}.gas-fields .field:nth-child(1),.gas-fields .field:nth-child(2){grid-column:1/-1}.card h2{font-size:17px}.summary .money{font-size:34px}.summary-stats strong{font-size:16px}.service-switch{gap:4px}.switch-text{min-width:60px}.slider-label>label{font-size:12px}.slider-number{width:98px}.mode span{font-size:11px;padding:10px 5px}}
+@media print{body{background:white}.hero-tag,.actions,.service-switch,.slider-edges,input[type=range]{display:none!important}.wrap{max-width:none;padding:0}.overview,.grid{break-inside:avoid}.card,.summary,.insight{box-shadow:none;break-inside:avoid}.slider-field{padding:10px}.summary{-webkit-print-color-adjust:exact;print-color-adjust:exact}.donut,.bar,.mini-track,.split{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style></head><body><main class="wrap"><header class="hero"><div><span class="eyebrow">ЯПОНИЯ / СЭНДАЙ / РАСХОДЫ</span><h1>🏠 ЖКХ в <span>Сэндае</span></h1><p class="intro">Автономный калькулятор расходов на дом · Сэндай / Мияги · любую услугу можно отключить · расчёт в японских иенах</p></div><div class="hero-tag">● Интерактивный калькулятор</div></header><section class="overview"><section aria-live="polite" class="summary"><div class="sub">Ваши расходы за месяц</div><div class="money" id="total">—</div><div class="summary-caption">С учётом половины двухмесячных счетов за воду и канализацию</div><div class="summary-stats"><div><span>За год</span><strong id="yearTotal">—</strong></div><div><span>Услуг включено</span><strong id="activeCount">—</strong></div></div></section><div class="insight"><div class="insight-head"><h2>Структура расходов</h2><span class="caption-mini">Обновляется при каждом изменении</span></div><div class="chart-layout"><div aria-label="Диаграмма распределения расходов" class="donut" id="donut" role="img"><div class="donut-center"><strong id="donutValue">100%</strong><small>всех расходов</small></div></div><div class="rows" id="breakdown"></div></div><div aria-label="Доли расходов" class="bar" id="chart"></div></div></section><div class="grid">
+<section class="card"><div class="card-head"><h2>⚡ Электричество</h2><label class="service-switch" title="Включить или исключить из общего расчёта"><input checked="" id="enabled-electric" type="checkbox"/><span aria-hidden="true" class="switch-track"></span><span class="switch-text" id="label-electric">Включено</span></label></div><div class="service-body" id="body-electric"><div class="mode"><label><input checked="" name="elecmode" type="radio" value="consumption"/><span>По расходу кВт·ч</span></label><label><input name="elecmode" type="radio" value="bill"/><span>По сумме счёта</span></label></div><div class="fields"><div class="field slider-field" data-slider="kwh" id="useField"><div class="slider-label"><label for="kwh">Расход за месяц, кВт·ч</label><div class="slider-number"><input id="kwh" min="0" step="1" type="number" value="700"/></div></div><input aria-label="Расход за месяц, кВт·ч" data-target="kwh" id="kwhSlider" max="2000" min="0" step="10" type="range" value="700"/><div class="slider-edges"><span>0</span><span id="kwhSliderMax">2 000 кВт·ч</span></div></div><div class="field slider-field" data-slider="bill" hidden="" id="billField"><div class="slider-label"><label for="bill">Счёт за месяц, ¥</label><div class="slider-number"><input id="bill" min="0" step="100" type="number" value="55000"/></div></div><input aria-label="Счёт за месяц, ¥" data-target="bill" id="billSlider" max="100000" min="0" step="1000" type="range" value="55000"/><div class="slider-edges"><span>0</span><span id="billSliderMax">100 000 ¥</span></div></div><div class="field"><label>Дневной тариф, ¥/кВт·ч</label><input id="dayRate" min="0" step="0.01" type="number" value="43"/></div><div class="field"><label>Ночной тариф, ¥/кВт·ч</label><input id="nightRate" min="0" step="0.01" type="number" value="27"/></div><div class="field slider-field" data-slider="nightShare"><div class="slider-label"><label for="nightShare">Ночью используется, %</label><div class="slider-number"><input id="nightShare" max="100" min="0" step="1" type="number" value="30"/></div></div><input aria-label="Ночью используется, %" data-target="nightShare" id="nightShareSlider" max="100" min="0" step="1" type="range" value="30"/><div class="slider-edges"><span>0</span><span id="nightShareSliderMax">100%</span></div></div><div class="field"><label>Абонентская плата, ¥/мес.</label><input id="elecBase" min="0" type="number" value="3100"/></div><div class="field"><label>Доп. переменный сбор, ¥/кВт·ч</label><input id="elecExtra" step="0.01" type="number" value="0"/></div><div class="field"><label>Прочая корректировка, ¥/мес.</label><input id="elecAdjust" step="1" type="number" value="0"/></div></div><div class="mini-panel"><div class="mini-head"><span>☀️ День и 🌙 ночь</span><b id="shareLabel">30% ночью</b></div><div class="split"><div class="split-day" id="dayBar" style="width:70%"></div><div class="split-night" id="nightBar" style="width:30%"></div></div><div class="mini-stats"><div class="mini-stat"><small>☀️ Дневное потребление</small><strong id="dayKwh">—</strong><em id="dayYen">—</em></div><div class="mini-stat"><small>🌙 Ночное потребление</small><strong id="nightKwh">—</strong><em id="nightYen">—</em></div></div></div><div class="result-panel"><div class="result-heading">Ориентировочная стоимость / месяц</div><div class="price" id="elecResult"></div><div class="muted" id="elecDetails"></div></div><p class="tip">Тарифы — пользовательский пример, не официальный тариф Tohoku Electric. Переменный сбор позволяет отдельно учитывать 再エネ賦課金 и топливную корректировку, если они не включены в тариф.</p></div></section>
+<section class="card"><div class="card-head"><h2 id="gasHeading">🔥 Городской газ (都市ガス)</h2><label class="service-switch" title="Включить или исключить из общего расчёта"><input checked="" id="enabled-gas" type="checkbox"/><span aria-hidden="true" class="switch-track"></span><span class="switch-text" id="label-gas">Включено</span></label></div><div class="service-body" id="body-gas">
+<div class="fields gas-fields">
+<div class="field"><label for="gasType">Тип газа</label><select id="gasType"><option value="city">Городской газ (都市ガス)</option><option value="lp">LP Gas — баллоны (プロパンガス)</option></select></div>
+<div class="field"><label for="gasPeriod">Тариф / источник цен</label><select id="gasPeriod"><option value="oct">Октябрь 2026 — городской тариф</option><option value="custom">Свои цены</option></select></div>
+<div class="gas-energy-note" role="note" aria-label="Важное различие городского и баллонного газа">
+  <div class="gas-energy-head"><span class="gas-energy-badge">Важно</span><strong>1 м³ LP Gas ≠ 1 м³ городского газа</strong></div>
+  <p>LP Gas (пропан) выделяет примерно <b>в 2,2 раза больше тепла</b> на 1 м³. Для одинакового количества тепла LP Gas нужно примерно в 2,2 раза меньше по объёму.</p>
+  <div class="gas-energy-bars">
+    <div class="gas-energy-row"><span>🏙️ Городской газ · 都市ガス</span><strong>45 МДж/м³</strong><div class="gas-energy-track"><span class="gas-energy-city"></span></div></div>
+    <div class="gas-energy-row"><span>🔥 LP Gas · プロパンガス</span><strong>99 МДж/м³</strong><div class="gas-energy-track"><span class="gas-energy-lp"></span></div></div>
+  </div>
+  <div class="gas-equivalence" id="gasEquivalence" aria-live="polite">26 м³ городского газа ≈ 11,8 м³ LP Gas при одинаковом количестве тепла.</div>
+  <small>Сравнение только по теплоте сгорания. Значения расхода для двух видов газа в калькуляторе сохраняются отдельно; реальные затраты зависят от приборов и условий использования.</small>
+</div>
+<div class="field slider-field" data-slider="gasVolume"><div class="slider-label"><label for="gasVolume">Расход в месяц, м³</label><div class="slider-number"><input id="gasVolume" min="0" step="0.1" type="number" value="26"/></div></div><input aria-label="Расход в месяц, м³" data-target="gasVolume" id="gasVolumeSlider" max="80" min="0" step="1" type="range" value="26"/><div class="slider-edges"><span>0</span><span id="gasVolumeSliderMax">80 м³</span></div></div>
+<div class="field"><label for="gasBase">Базовая плата, ¥/мес.</label><input id="gasBase" min="0" step="0.01" type="number" value="770"/></div>
+<div class="field"><label for="gasRate">Цена за м³, ¥</label><input id="gasRate" min="0" step="0.01" type="number" value="187.45"/></div>
+<div class="field" hidden="" id="gasEquipmentField"><label for="gasEquipment">Плата за оборудование LP, ¥/мес.</label><input id="gasEquipment" min="0" step="1" type="number" value="0"/></div>
+</div>
+<p class="edit-hint" id="gasEditHint">Базовую плату и цену за м³ можно изменить прямо здесь. При изменении автоматически включится режим «Свои цены».</p>
+
+<div class="result-panel"><div class="result-heading">Ориентировочная стоимость / месяц</div><div class="price" id="gasResult"></div><div class="muted" id="gasDetails"></div></div><p class="tip" id="gasTip">Тариф 仙台市ガス局 за октябрь 2026. Для других месяцев выберите «Свои цены» и введите тариф из счёта.</p>
+</div></section>
+<section class="card"><div class="card-head"><h2>🚰 Водоснабжение (水道)</h2><label class="service-switch" title="Включить или исключить из общего расчёта"><input checked="" id="enabled-water" type="checkbox"/><span aria-hidden="true" class="switch-track"></span><span class="switch-text" id="label-water">Включено</span></label></div><div class="service-body" id="body-water"><div class="fields"><div class="field slider-field" data-slider="waterVolume"><div class="slider-label"><label for="waterVolume">Расход за 2 месяца, м³</label><div class="slider-number"><input id="waterVolume" min="0" step="1" type="number" value="40"/></div></div><input aria-label="Расход за 2 месяца, м³" data-target="waterVolume" id="waterVolumeSlider" max="120" min="0" step="1" type="range" value="40"/><div class="slider-edges"><span>0</span><span id="waterVolumeSliderMax">120 м³</span></div></div><div class="field"><label>Диаметр счётчика</label><select id="waterMeter"><option value="13">13 мм</option><option selected="" value="20">20 мм</option><option value="25">25 мм</option><option value="30">30 мм</option><option value="40">40 мм</option><option value="50">50 мм</option><option value="75">75 мм</option><option value="100">100 мм</option><option value="150">150 мм</option><option value="200">200 мм</option></select></div></div><div class="result-panel"><div class="result-heading">Ориентировочная стоимость / месяц</div><div class="price" id="waterResult"></div><div class="muted" id="waterDetails"></div></div><p class="tip">Официальная обычная прогрессивная сетка (с НДС), расчёт за два месяца с удвоенными порогами и базовой платой. Временные городские льготы не применяются автоматически.</p></div></section>
+<section class="card"><div class="card-head"><h2>💧 Канализация (下水道)</h2><label class="service-switch" title="Включить или исключить из общего расчёта"><input checked="" id="enabled-sewer" type="checkbox"/><span aria-hidden="true" class="switch-track"></span><span class="switch-text" id="label-sewer">Включено</span></label></div><div class="service-body" id="body-sewer"><div class="fields"><div class="field slider-field" data-slider="sewerVolume"><div class="slider-label"><label for="sewerVolume">Расход за 2 месяца, м³</label><div class="slider-number"><input id="sewerVolume" min="0" step="1" type="number" value="40"/></div></div><input aria-label="Расход за 2 месяца, м³" data-target="sewerVolume" id="sewerVolumeSlider" max="120" min="0" step="1" type="range" value="40"/><div class="slider-edges"><span>0</span><span id="sewerVolumeSliderMax">120 м³</span></div></div><div class="field"><label>Связать с расходом воды</label><select id="linkSewer"><option selected="" value="yes">Да, как обычно</option><option value="no">Нет, свой объём</option></select></div></div><div class="result-panel"><div class="result-heading">Ориентировочная стоимость / месяц</div><div class="price" id="sewerResult"></div><div class="muted" id="sewerDetails"></div></div><p class="tip">В Сэндае канализация обычно выставляется вместе с водой за два месяца. Считается по отдельной шкале с фиксированной ставкой за первые 20 м³.</p></div></section>
+<section class="card full">
+<h2>➕ Другие ежемесячные расходы (необязательно)</h2>
+<div class="extras-grid">
+<div class="extra-service" id="row-internet"><div class="extra-head"><strong>🌐 Интернет</strong><label class="service-switch" title="Включить или исключить интернет"><input checked="" id="enabled-internet" type="checkbox"/><span aria-hidden="true" class="switch-track"></span><span class="switch-text" id="label-internet">Включено</span></label></div><div class="service-body" id="body-internet"><div class="field slider-field" data-slider="internet"><div class="slider-label"><label for="internet">Интернет (10 Гбит/с), ¥/мес.</label><div class="slider-number"><input id="internet" min="0" type="number" value="5700"/></div></div><input aria-label="Интернет (10 Гбит/с), ¥/мес." data-target="internet" id="internetSlider" max="20000" min="0" step="100" type="range" value="5700"/><div class="slider-edges"><span>0</span><span id="internetSliderMax">20 000 ¥</span></div></div></div></div>
+<div class="extra-service" id="row-other"><div class="extra-head"><strong>🧾 Прочее</strong><label class="service-switch" title="Включить или исключить прочие расходы"><input checked="" id="enabled-other" type="checkbox"/><span aria-hidden="true" class="switch-track"></span><span class="switch-text" id="label-other">Включено</span></label></div><div class="service-body" id="body-other"><div class="field slider-field" data-slider="other"><div class="slider-label"><label for="other">Другие расходы, ¥/мес.</label><div class="slider-number"><input id="other" min="0" type="number" value="0"/></div></div><input aria-label="Другие расходы, ¥/мес." data-target="other" id="otherSlider" max="50000" min="0" step="500" type="range" value="0"/><div class="slider-edges"><span>0</span><span id="otherSliderMax">50 000 ¥</span></div></div></div></div>
+</div>
+<p class="tip">Каждую услугу можно отдельно отключить — она сразу исчезнет из итоговой суммы. Аренда, ипотека и налог на недвижимость здесь не учитываются.</p>
+</section>
+</div><section class="notes"><div class="actions"><button id="reset">Сбросить к стандартным значениям</button><button class="secondary" id="print">Распечатать / сохранить как PDF</button></div><div class="warning">Это оценка, а не официальный расчётный документ. Реальные суммы зависят от договора, расчётного периода, временных скидок, округлений и дополнительных корректировок. Октябрьские газовые ставки не следует использовать для других месяцев без обновления. Объём LP Gas в м³ нельзя напрямую приравнивать к тому же объёму городского газа: у них разная теплота сгорания.</div></section><footer><strong>Официальные источники:</strong><div class="sources"><a href="https://www.suidou.city.sendai.jp/soshiki/somu-zaimu/todokede-ryokin/1/316.html" target="_blank">仙台市水道局 — тарифы воды</a><br/><a href="https://www.city.sendai.jp/gyomu-gyomu/kurashi/machi/lifeline/gesuido/gesuido/shimin/riyo/ryokin.html" target="_blank">仙台市 — тарифы канализации</a><br/><a href="https://divcom02.gas.city.sendai.jp/family/charge/uploads/2026/08/r8-10.pdf" target="_blank">仙台市ガス局 — октябрь 2026 (PDF)</a><br/><a href="https://www.suidou.city.sendai.jp/soshiki/somu-eigyo/todokede-ryokin/5/503.html" target="_blank">Официальный калькулятор воды Сэндая</a><br/><a href="https://oil-info.ieej.or.jp/price/price_ippan_lp_gusu.html" rel="noopener noreferrer" target="_blank">石油情報センター — официальная статистика LP Gas (Мияги, август 2026)</a><br/><a href="https://ouchi-energy.net/lpg/miyagi/" rel="noopener noreferrer" target="_blank">Статистика LP Gas — зона 仙台都市 (август 2026)</a><br/><a href="https://www.gas.city.sendai.jp/top/natural-gas/05/index.php" rel="noopener noreferrer" target="_blank">仙台市ガス局 — теплота сгорания городского газа (45 МДж/м³)</a><br/><a href="https://www.lpg.or.jp/sp/about_lpg/about_lpg01.html" rel="noopener noreferrer" target="_blank">LPガス安全委員会 — теплота сгорания пропана (99 МДж/м³)</a></div><p>Данные проверены 31 октября 2026 г. Все вычисления происходят локально в браузере; никаких запросов к серверу нет.</p></footer></main><script>"use strict";
+const $=id=>document.getElementById(id);
+const money=x=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Math.round(x))+' ¥';
+const num=id=>{const v=Number($(id).value);return Number.isFinite(v)?v:0};
+const positive=id=>Math.max(0,num(id));
+const waterBases={13:638,20:1375,25:2090,30:3080,40:5830,50:12320,75:27060,100:52800,150:143000,200:286000};
+function progressive(v,tiers){let prev=0,price=0;for(const [limit,rate] of tiers){const qty=Math.max(0,Math.min(v,limit)-prev);price+=qty*rate;prev=limit;if(v<=limit)break}return price}
+function waterCost(v,m){const t=m<=25?[[20,88],[40,203.5],[100,225.5],[200,264],[400,302.5],[Infinity,341]]:[[100,225.5],[200,264],[400,302.5],[Infinity,341]];return Math.floor(waterBases[m]*2+progressive(v,t))}
+function sewerCost(v){return Math.floor(1546.6+progressive(Math.max(0,v-20),[[20,114.4],[80,150.7],[180,247.5],[380,301.4],[980,386.1],[1980,415.8],[19980,446.6],[Infinity,462]]))}
+function gasTariff(v){if(v<=20)return [647.90,193.56];if(v<=100)return[770,187.45];if(v<=300)return[990,185.27];return[2530,180.14]}
+// Published LP-gas *total bills* (tax included), NOT a single official tariff.
+// Between published use points we linearly interpolate; beyond last point we extrapolate.
+const lpBenchmarks={
+  sendai:[[0,1945],[5,5816],[10,9604],[20,16720]],
+  miyagi:[[0,1989],[5,6018],[10,9966],[20,17435],[50,38090]]
+};
+function interpolateLP(volume, points){
+  const v=Math.max(0,volume);
+  for(let i=1;i<points.length;i++){
+    if(v<=points[i][0]){
+      const [x0,y0]=points[i-1],[x1,y1]=points[i];
+      return y0+(v-x0)*(y1-y0)/(x1-x0);
+    }
+  }
+  const [x0,y0]=points[points.length-2],[x1,y1]=points[points.length-1];
+  return y1+(v-x1)*(y1-y0)/(x1-x0);
+}
+const gasModes={city:[['oct','Октябрь 2026 — 仙台市ガス局'],['custom','Свои цены']],lp:[['sendai','Средняя цена — 仙台都市 (08.2026)'],['miyagi','Средняя цена — Мияги (08.2026)'],['custom','Свои цены']]};
+const gasDefaults=()=>({
+  city:{volume:26,mode:'oct',base:770,rate:187.45,equipment:0},
+  lp:{volume:12,mode:'sendai',base:1945,rate:766,equipment:0}
+});
+let gasStates=gasDefaults();
+let activeGasType='city';
+const services=['electric','gas','water','sewer','internet','other'];
+const enabled=id=>$('enabled-'+id).checked;
+function setGasModes(type){
+  $('gasPeriod').replaceChildren(...gasModes[type].map(([value,name])=>new Option(name,value)));
+  $('gasEquipmentField').hidden=type!=='lp';
+}
+function snapshotGas(){
+  const s=gasStates[activeGasType];
+  s.volume=positive('gasVolume');s.mode=$('gasPeriod').value;s.base=positive('gasBase');s.rate=positive('gasRate');s.equipment=positive('gasEquipment');
+}
+function restoreGas(type){
+  activeGasType=type;
+  const s=gasStates[type];
+  $('gasHeading').textContent=type==='lp'?'🔥 LP Gas (プロパンガス)':'🔥 Городской газ (都市ガス)';
+  $('gasType').value=type;setGasModes(type);
+  $('gasPeriod').value=s.mode;$('gasVolume').value=s.volume;$('gasBase').value=s.base;$('gasRate').value=s.rate;$('gasEquipment').value=s.equipment;
+}
+function gasQuote(){
+  const v=positive('gasVolume'),type=activeGasType,mode=$('gasPeriod').value;
+  // Heat values per cubic metre: Sendai city gas 13A = 45 MJ; propane = 99 MJ.
+  const equivalent=type==='city'?v*45/99:v*99/45;
+  const display=x=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:1}).format(x);
+  $('gasEquivalence').textContent=type==='city'
+    ?`${display(v)} м³ городского газа ≈ ${display(equivalent)} м³ LP Gas при одинаковом количестве тепла.`
+    :`${display(v)} м³ LP Gas ≈ ${display(equivalent)} м³ городского газа при одинаковом количестве тепла.`;
+
+  let base=positive('gasBase'),rate=positive('gasRate'),total=0;
+  if(type==='city'&&mode==='oct'){
+    [base,rate]=gasTariff(v);total=base+rate*v;
+  }else if(type==='lp'&&mode!=='custom'){
+    const pts=lpBenchmarks[mode];base=pts[0][1];total=interpolateLP(v,pts);
+    rate=v>0?(total-base)/v:(pts[1][1]-base)/pts[1][0];
+  }else{total=base+rate*v}
+  // Auto preset displays its actual, currently applied base/rate.
+  // Both fields remain editable: typing either switches to the custom tariff.
+  if(mode!=='custom'){
+    $('gasBase').value=Number(base.toFixed(2));$('gasRate').value=Number(rate.toFixed(2));
+  }
+  const equipment=type==='lp'?positive('gasEquipment'):0;
+  total=Math.max(0,Math.floor(total+equipment));
+  let details=mode==='custom'?`База ${base.toFixed(2)} ¥ + ${v} м³ × ${rate.toFixed(2)} ¥`:type==='city'?`Тарифная ступень: база ${base.toFixed(2)} ¥ + ${v} м³ × ${rate.toFixed(2)} ¥`:`Средний счёт при ${v} м³: ${money(total-equipment)} (интерполяция)`;
+  if(equipment)details+=` · оборудование ${money(equipment)}`;
+  if(type==='lp' && mode!=='custom' && v>lpBenchmarks[mode].at(-1)[0])details+=' · экстраполяция за пределами таблицы';
+  $('gasDetails').textContent=details;
+  $('gasTip').textContent=type==='city'?'Городской газ: тариф 仙台市ガス局 за октябрь 2026, с налогом и применимыми временными корректировками. В других месяцах выберите «Свои цены».':mode==='custom'?'LP Gas: свободная цена у каждого поставщика. Введите базовую плату, цену за м³ и при необходимости плату за оборудование согласно договору.':'LP Gas: средние счета с НДС по исследованию 石油情報センター за август 2026 (регион 仙台都市 или вся Мияги). Между опубликованными объёмами применяется линейная интерполяция. Это не тариф конкретного поставщика.';
+  $('gasEditHint').textContent=mode==='custom'?'Свой тариф активен: обе цены можно свободно изменять.':'Базовая плата и цена за м³ показаны для выбранного тарифа. Измените любое число — автоматически включится режим «Свои цены».';
+  return total;
+}
+function updateEnabled(){
+  for(const id of services){
+    const on=enabled(id),body=$('body-'+id);
+    body.classList.toggle('is-off',!on);
+    body.inert=!on;
+    $('label-'+id).textContent=on?'Включено':'Выключено';
+  }
+}
+function calc(){
+  updateEnabled();
+  const night=Math.max(0,Math.min(100,num('nightShare')))/100;
+  const unit=positive('dayRate')*(1-night)+positive('nightRate')*night+num('elecExtra');
+  const fixed=positive('elecBase')+num('elecAdjust');
+  const mode=document.querySelector('input[name=elecmode]:checked').value;
+  $('useField').hidden=mode==='bill';$('billField').hidden=mode!=='bill';
+  const kwh=mode==='bill'?(unit>0?Math.max(0,(positive('bill')-fixed)/unit):0):positive('kwh');
+  const elec=mode==='bill'?positive('bill'):Math.max(0,kwh*unit+fixed);
+  $('elecResult').textContent=enabled('electric')?money(elec)+' / мес.':'Не учитывается';
+  $('shareLabel').textContent=Math.round(night*100)+'% ночью';
+  $('dayBar').style.width=((1-night)*100)+'%';
+  $('nightBar').style.width=(night*100)+'%';
+  $('dayKwh').textContent=money(kwh*(1-night)).replace('¥','кВт·ч');
+  $('nightKwh').textContent=money(kwh*night).replace('¥','кВт·ч');
+  $('dayYen').textContent=money(kwh*(1-night)*positive('dayRate'));
+  $('nightYen').textContent=money(kwh*night*positive('nightRate'));
+  $('elecDetails').textContent=`${kwh.toFixed(1)} кВт·ч (день ${(kwh*(1-night)).toFixed(1)}, ночь ${(kwh*night).toFixed(1)}) · средняя ставка ${unit.toFixed(2)} ¥/кВт·ч`;
+  const gas=gasQuote();
+  $('gasResult').textContent=enabled('gas')?money(gas)+' / мес.':'Не учитывается';
+  const wv=positive('waterVolume'),wm=Number($('waterMeter').value),w2=waterCost(wv,wm);
+  $('waterResult').textContent=enabled('water')?money(w2/2)+' / мес.':'Не учитывается';
+  $('waterDetails').textContent=`Счёт за 2 месяца: ${money(w2)} · ${wv} м³`;
+  if($('linkSewer').value==='yes')$('sewerVolume').value=$('waterVolume').value;
+  $('sewerVolume').disabled=$('linkSewer').value==='yes';
+  const sv=positive('sewerVolume'),s2=sewerCost(sv);
+  $('sewerResult').textContent=enabled('sewer')?money(s2/2)+' / мес.':'Не учитывается';
+  $('sewerDetails').textContent=`Счёт за 2 месяца: ${money(s2)} · ${sv} м³`;
+  const parts=[
+    ['Электричество',enabled('electric')?elec:0,'#e7a23e',enabled('electric')],
+    [activeGasType==='lp'?'LP Gas (баллоны)':'Городской газ',enabled('gas')?gas:0,'#eb7867',enabled('gas')],
+    ['Вода',enabled('water')?w2/2:0,'#4199d3',enabled('water')],
+    ['Канализация',enabled('sewer')?s2/2:0,'#38b8ad',enabled('sewer')],
+    ['Интернет',enabled('internet')?positive('internet'):0,'#8d79d4',enabled('internet')],
+    ['Прочее',enabled('other')?positive('other'):0,'#9ea6b1',enabled('other')]
+  ];
+  const total=parts.reduce((a,b)=>a+b[1],0);
+  $('total').textContent=money(total);
+  $('yearTotal').textContent=money(total*12);
+  $('activeCount').textContent=services.filter(enabled).length+' из '+services.length;
+  $('breakdown').innerHTML=parts.map(([name,value,color,on])=>{
+    const percent=total>0?Math.max(0,value/total*100):0;
+    return `<div class="break-item${on?'':' off'}"><div class="break-name"><span class="dot" style="background:${color}"></span><span>${name}${on?'':' · выкл.'}</span></div><strong class="break-value">${money(value)}</strong><div class="mini-track"><div class="mini-fill" style="width:${percent.toFixed(2)}%;background:${color}"></div></div></div>`;
+  }).join('');
+  $('chart').innerHTML=parts.filter(x=>x[1]>0).map(([n,v,c])=>`<span title="${n}: ${money(v)}" style="width:${total>0?v/total*100:0}%;background:${c}"></span>`).join('');
+  let deg=0;
+  const arcs=[];
+  parts.filter(x=>x[1]>0).forEach(([name,value,color])=>{
+    const sweep=total>0?value/total*360:0;
+    arcs.push(`${color} ${deg.toFixed(3)}deg ${(deg+sweep).toFixed(3)}deg`);deg+=sweep;
+  });
+  $('donut').style.background=arcs.length?'conic-gradient('+arcs.join(',')+')':'#e8eef6';
+  $('donutValue').textContent=total>0?'100%':'0%';
+  $('donut').setAttribute('aria-label','Распределение расходов: '+parts.filter(x=>x[1]>0).map(([n,v])=>n+' '+money(v)).join(', '));
+  syncSlidersFromNumbers();
+}
+function saveLocal(){
+  snapshotGas();
+  const values={};
+  document.querySelectorAll('input[id],select[id]').forEach(el=>{if(el.type==='range')return;if(el.type==='checkbox')values[el.id]=el.checked;else if(!['gasType','gasPeriod','gasVolume','gasBase','gasRate','gasEquipment'].includes(el.id))values[el.id]=el.value});
+  values.elecMode=document.querySelector('input[name=elecmode]:checked').value;
+  try{localStorage.setItem('sendaiUtilities_v2',JSON.stringify({values,gasStates,activeGasType}))}catch(e){}
+}
+function loadLocal(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('sendaiUtilities_v2')||'null');
+    if(!saved||!saved.values||!saved.gasStates)return;
+    for(const [id,v] of Object.entries(saved.values)){
+      if(id==='elecMode'){const node=document.querySelector(`input[name=elecmode][value="${v}"]`);if(node)node.checked=true;continue}
+      const el=$(id);if(!el)continue;
+      if(el.type==='checkbox')el.checked=v===true;else el.value=v;
+    }
+    for(const type of ['city','lp']){
+      if(saved.gasStates[type]){
+        for(const key of ['volume','base','rate','equipment'])if(Number.isFinite(Number(saved.gasStates[type][key])))gasStates[type][key]=Math.max(0,Number(saved.gasStates[type][key]));
+        const mode=saved.gasStates[type].mode;
+        if(gasModes[type].some(([m])=>m===mode))gasStates[type].mode=mode;
+      }
+    }
+    if(saved.activeGasType==='lp')activeGasType='lp';
+  }catch(e){}
+}
+
+// Number boxes and sliders are two views of the same value. Manual input may exceed slider limits.
+const sliderConfigs={kwh:[2000,10,'кВт·ч'],bill:[100000,1000,'¥'],nightShare:[100,1,'%'],gasVolume:[80,1,'м³'],waterVolume:[120,1,'м³'],sewerVolume:[120,1,'м³'],internet:[20000,100,'¥'],other:[50000,500,'¥']};
+function syncSlidersFromNumbers(){
+  for(const [id,[maxValue,step,unit]] of Object.entries(sliderConfigs)){
+    const input=$(id),range=$(id+'Slider');
+    if(!input||!range)continue;
+    const v=positive(id);
+    const targetMax=Math.max(maxValue,Math.ceil(v/step)*step);
+    range.max=String(targetMax);
+    range.value=String(Math.min(targetMax,v));
+    range.disabled=input.disabled;
+    range.style.setProperty('--progress',(targetMax>0?Math.min(100,v/targetMax*100):0)+'%');
+    $(''+id+'SliderMax').textContent=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(targetMax)+' '+unit;
+  }
+}
+for(const id of Object.keys(sliderConfigs)){
+  $(id+'Slider').addEventListener('input',()=>{
+    $(id).value=$(id+'Slider').value;
+    calc();saveLocal();
+  });
+}
+
+// Auto-switch to custom tariff whenever the user edits the displayed preset number.
+for(const id of ['gasBase','gasRate']){
+  $(id).addEventListener('input',()=>{
+    if($('gasPeriod').value!=='custom')$('gasPeriod').value='custom';
+    calc();saveLocal();
+  });
+}
+$('gasType').addEventListener('change',()=>{
+  const type=$('gasType').value;
+  snapshotGas();restoreGas(type);calc();saveLocal();
+});
+$('gasPeriod').addEventListener('change',()=>{calc();saveLocal()});
+for(const el of document.querySelectorAll('input,select')){
+  if(el.type==='range'||['gasBase','gasRate','gasType','gasPeriod'].includes(el.id))continue;
+  el.addEventListener('input',()=>{calc();saveLocal()});
+  el.addEventListener('change',()=>{calc();saveLocal()});
+}
+$('reset').addEventListener('click',()=>{
+  const defaults={kwh:700,bill:55000,dayRate:43,nightRate:27,nightShare:30,elecBase:3100,elecExtra:0,elecAdjust:0,waterVolume:40,waterMeter:'20',sewerVolume:40,linkSewer:'yes',internet:5700,other:0};
+  Object.entries(defaults).forEach(([id,value])=>$(id).value=value);
+  services.forEach(id=>$('enabled-'+id).checked=true);
+  document.querySelector('input[name=elecmode][value=consumption]').checked=true;
+  gasStates=gasDefaults();restoreGas('city');calc();
+  try{localStorage.removeItem('sendaiUtilities_v2')}catch(e){}
+});
+$('print').addEventListener('click',()=>window.print());
+loadLocal();restoreGas(activeGasType);calc();
+</script></body></html>
